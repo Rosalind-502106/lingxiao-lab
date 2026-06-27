@@ -1,0 +1,111 @@
+{
+  "items": [
+    {
+      "category": "主板",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raeramw",
+      "name": "ESP32 开发板",
+      "note": "标准版",
+      "total": 10,
+      "unit": "块"
+    },
+    {
+      "category": "主板",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raetb8p",
+      "name": "ESP32-CAM",
+      "note": "带摄像头",
+      "total": 5,
+      "unit": "块"
+    },
+    {
+      "category": "传感器",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raeeig7",
+      "name": "超声波传感器 HC-SR04",
+      "total": 8,
+      "unit": "个"
+    },
+    {
+      "category": "传感器",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raexw3z",
+      "name": "温湿度传感器 DHT11",
+      "total": 6,
+      "unit": "个"
+    },
+    {
+      "category": "模块",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5rae4cgx",
+      "name": "舵机 SG90",
+      "total": 12,
+      "unit": "个"
+    },
+    {
+      "category": "显示器",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5rae4s7x",
+      "name": "OLED 显示屏 0.96寸",
+      "note": "I2C接口",
+      "total": 4,
+      "unit": "块"
+    },
+    {
+      "category": "线材",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5rae13j9",
+      "name": "杜邦线 公对母 40根装",
+      "total": 3,
+      "unit": "套"
+    },
+    {
+      "category": "工具",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raeddoz",
+      "name": "面包板 830孔",
+      "total": 5,
+      "unit": "块"
+    },
+    {
+      "category": "模块",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raek2as",
+      "name": "LED 5mm 彩色套装",
+      "note": "红黄蓝绿白各4颗",
+      "total": 20,
+      "unit": "颗"
+    },
+    {
+      "category": "电源",
+      "createdAt": "2026-06-27T14:20:10.982Z",
+      "id": "mqwg5raedtf6",
+      "name": "电池盒 4节AA",
+      "note": "带开关",
+      "total": 6,
+      "unit": "个"
+    }
+  ],
+  "borrows": [
+    {
+      "borrower": "张明",
+      "dateBorrow": "2026-06-24T14:20:10.982Z",
+      "dateReturn": null,
+      "id": "mqwg5raeae2a",
+      "itemId": "mqwg5raeramw",
+      "note": "智能小车项目",
+      "qty": 2,
+      "returned": false
+    },
+    {
+      "borrower": "李华",
+      "dateBorrow": "2026-06-22T14:20:10.982Z",
+      "dateReturn": "2026-06-25T14:20:10.982Z",
+      "id": "mqwg5raesszh",
+      "itemId": "mqwg5raetb8p",
+      "note": "",
+      "qty": 1,
+      "returned": true
+    }
+  ]
+}
