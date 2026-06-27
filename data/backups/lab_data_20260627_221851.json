@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "测试物资",
+      "category": "工具",
+      "quantity": 10,
+      "unit": "个",
+      "borrowed": 0,
+      "addTime": "2025-06-27",
+      "note": "测试"
+    }
+  ],
+  "borrows": []
+}
