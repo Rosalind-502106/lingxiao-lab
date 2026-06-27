@@ -1,0 +1,249 @@
+{
+  "items": [
+    {
+      "id": "esp32-board-001",
+      "name": "ESP32 开发板",
+      "category": "主板",
+      "total": 10,
+      "unit": "块",
+      "note": "标准版",
+      "desc": "主控芯片ESP32-WROOM-32，集成WiFi和蓝牙双模通信。搭载双核Xtensa LX6处理器，主频240MHz，520KB SRAM。支持Arduino IDE和MicroPython编程。广泛应用于物联网终端、智能家居网关、无线传感器节点等场景。"
+    },
+    {
+      "id": "esp32-cam-002",
+      "name": "ESP32-CAM",
+      "category": "主板",
+      "total": 5,
+      "unit": "块",
+      "note": "带摄像头",
+      "desc": "在ESP32基础上集成OV2640摄像头接口，支持UXGA(1600×1200)分辨率图像采集。板载MicroSD卡槽和闪光灯电路，支持视频流和JPEG压缩输出。适用于图像识别门禁、远程监控机器人、智能拍照装置等视觉类项目。"
+    },
+    {
+      "id": "hc-sr04-003",
+      "name": "超声波传感器 HC-SR04",
+      "category": "传感器",
+      "total": 8,
+      "unit": "个",
+      "desc": "经典超声波测距模块，利用声波在空气中的传播速度(343m/s)计算距离。工作电压5V DC，测量范围2cm~400cm，测距精度可达3mm。配有40kHz发射器和接收器，TTL电平Trig/Echo双引脚触发。适合避障小车、倒车雷达、液位监测等场景。"
+    },
+    {
+      "id": "dht11-004",
+      "name": "温湿度传感器 DHT11",
+      "category": "传感器",
+      "total": 6,
+      "unit": "个",
+      "desc": "数字式温湿度复合传感器，内置8位MCU进行校准补偿。温度测量范围0~50℃，湿度20~90%RH。采用单总线通信协议，数据帧长40bit，采样周期1s。工作电压3.3~5.5V，功耗极低约0.5mA。推荐用于小型气象站、温室大棚监控等。"
+    },
+    {
+      "id": "sg90-005",
+      "name": "舵机 SG90",
+      "category": "执行器",
+      "total": 12,
+      "unit": "个",
+      "desc": "9g微型塑料齿轮伺服电机，工作电压4.8~6V DC，堵转扭矩1.8kg·cm。控制信号为50Hz PWM脉宽调制，脉宽500~2500μs对应0~180°转角。重量仅9g，尺寸23×12.2×29mm，适合机器人的小型关节、云台舵机、机械抓手等轻载角度控制。"
+    },
+    {
+      "id": "oled-006",
+      "name": "OLED 显示屏 0.96寸",
+      "category": "显示器",
+      "total": 4,
+      "unit": "块",
+      "note": "I2C接口",
+      "desc": "单色128×64像素OLED显示模块，驱动芯片SSD1306，I2C接口(默认地址0x3C)。对比度高达10000:1，无背光设计仅靠像素自发光。工作电压3.3~5V，典型功耗20mA。配合U8g2或Adafruit_SSD1306库即可驱动，适合DIY作品的状态显示和菜单界面。"
+    },
+    {
+      "id": "dupont-007",
+      "name": "杜邦线 公对母 40根装",
+      "category": "线材",
+      "total": 3,
+      "unit": "套",
+      "desc": "标准2.54mm间距连接线，导线规格28AWG(0.128mm²)，含磷铜镀镍端子和PVC绝缘外皮。每套包含红黄蓝绿白黑六种常规颜色各若干根，长度约20cm。耐压300V，额定电流1A，适合实验环境下的非永久性电路搭接。"
+    },
+    {
+      "id": "breadboard-008",
+      "name": "面包板 830孔",
+      "category": "工具",
+      "total": 5,
+      "unit": "块",
+      "desc": "标准830孔无焊面包板，尺寸约165×55×10mm。上下各有一条电源总线(共4组VCC/GND)，中间为双列64组5孔连接条。内部接触点采用磷铜弹片镀镍处理，插拔寿命>5000次。搭配杜邦线和飞线可快速验证电路。"
+    },
+    {
+      "id": "led-kit-009",
+      "name": "LED 5mm 彩色套装",
+      "category": "模块",
+      "total": 20,
+      "unit": "颗",
+      "note": "红黄蓝绿白各4颗",
+      "desc": "F5圆头高亮发光二极管套装，含红(620-625nm)、黄(585-590nm)、蓝(460-465nm)、绿(515-520nm)、白(6000K正白)各4颗共20颗。红色LED正向压降约1.8-2.2V，其他颜色约3.0-3.4V，正向电流建议15-20mA。使用时必须串联限流电阻。"
+    },
+    {
+      "id": "battery-box-010",
+      "name": "电池盒 4节AA",
+      "category": "电源",
+      "total": 6,
+      "unit": "个",
+      "note": "带开关",
+      "desc": "4节AA电池串联电池盒，输出电压6V DC，带滑动式电源开关。输出线为红黑双色22AWG导线，端部剥锡并镀有杜邦母头。建议搭配7805降压模块输出稳定5V给Arduino供电，或者直接驱动SG90舵机、L298N电机驱动模块。"
+    },
+    {
+      "id": "arduino-uno-011",
+      "name": "Arduino Uno R3",
+      "category": "主板",
+      "total": 4,
+      "unit": "块",
+      "desc": "全球最广泛使用的开源开发板，基于ATmega328P微控制器(16MHz主频)。提供14个数字I/O引脚(其中6路PWM输出)、6个10位ADC模拟输入、1个UART/SPI/I2C接口。板载500mA自恢复保险丝，Micro USB供电。适合零基础入门嵌入式开发。"
+    },
+    {
+      "id": "raspberry-pi-012",
+      "name": "树莓派 4B 4GB",
+      "category": "主板",
+      "total": 2,
+      "unit": "块",
+      "desc": "单板计算机旗舰型号，BCM2711四核Cortex-A72处理器，主频1.8GHz。4GB LPDDR4 RAM，双频WiFi 802.11ac和蓝牙5.0。GPIO 40针引脚，双Micro HDMI(4K 60fps)、双USB 3.0/USB 2.0、USB-C供电(5V 3A)。适合AI摄像头、NAS服务器、极简桌面电脑等。"
+    },
+    {
+      "id": "vl53l0x-013",
+      "name": "激光测距传感器 VL53L0X",
+      "category": "传感器",
+      "total": 4,
+      "unit": "个",
+      "desc": "意法半导体ST出品的新一代飞行时间(ToF)测距传感器。内置VCSEL激光发射器和SPAD光子探测阵列，测量范围5mm~2m(室内)，精度±3%。I2C接口(地址0x29)，数据输出速率高达50Hz，测距不受目标颜色和反射率影响。适合自动避障、对焦辅助、无人机定高等高精度测距需求。"
+    },
+    {
+      "id": "mpu6050-014",
+      "name": "MPU6050 六轴陀螺仪",
+      "category": "传感器",
+      "total": 5,
+      "unit": "个",
+      "desc": "全球首款集成6轴MEMS运动跟踪的传感器，内含3轴陀螺仪(±250/500/1000/2000°/s可编程满量程)和3轴加速度计(±2/4/8/16g)。I2C接口(地址0x68)，内建DMP直接输出四元数。工作电压3.3-5V，广泛应用于空中鼠标、姿态航向参考系统、体感游戏手柄等。"
+    },
+    {
+      "id": "relay-2ch-015",
+      "name": "继电器模块 2路",
+      "category": "模块",
+      "total": 5,
+      "unit": "块",
+      "desc": "2路光耦隔离继电器模块，采用SRD-05VDC-SL-C继电器，单路触点容量10A 250VAC / 10A 30VDC。高低电平触发可选(通过跳线帽)，信号端带光耦(PC817)实现电气隔离。工作电压5V DC。适用于智能家居中控、水泵电磁阀控制等。"
+    },
+    {
+      "id": "pn532-016",
+      "name": "NFC模块 PN532",
+      "category": "射频",
+      "total": 3,
+      "unit": "个",
+      "desc": "恩智浦PN532芯片的全功能NFC近场通信模块，支持13.56MHz频段。三种通信接口可选：I2C(默认地址0x48)、SPI、UART(115200bps)。工作模式支持读卡器/写卡器/卡模拟，兼容NFC Type 1~4标签。读卡距离约3~7cm。适用于门禁模拟、碰一碰交互、NFC数据交换等。"
+    },
+    {
+      "id": "soil-moisture-017",
+      "name": "土壤湿度传感器",
+      "category": "传感器",
+      "total": 4,
+      "unit": "个",
+      "desc": "电容式土壤湿度传感器，相较传统电阻式(易腐蚀)更耐用。利用土壤介电常数随含水量变化检测湿度，探针镀金处理抗腐蚀。模拟电压输出(0~3V)，典型工作电压3.3~5V。配合ESP32可通过WiFi上传数据到HomeAssistant等物联网平台，实现远程植物养护监控。"
+    },
+    {
+      "id": "ws2812b-018",
+      "name": "WS2812B RGB灯带 1m",
+      "category": "模块",
+      "total": 5,
+      "unit": "条",
+      "desc": "可寻址RGB LED灯带，30颗/米高密度排列。内置WS2812B恒流驱动IC(三通道8位PWM，1677万色)，仅需单根信号线(协议速率800Kbps)即可级联控制全部灯珠。工作电压5V，单灯珠全亮约60mA。适合氛围照明、音乐律动墙、大屏LED矩阵等创意项目。"
+    },
+    {
+      "id": "brushless-2204-019",
+      "name": "无刷电机 2204",
+      "category": "电机",
+      "total": 4,
+      "unit": "个",
+      "desc": "2204规格外转子无刷直流电机(BLDC)，定子直径22mm/高度4mm。KV值2300(每伏特空载转速)，使用3S(11.1V)锂电池时理论转速约25500rpm。配合30A电子调速器(ESC)，可驱动5~7英寸螺旋桨提供约200~400g推力。适用FPV穿越机、微型无人机等。"
+    },
+    {
+      "id": "battery-18650-020",
+      "name": "锂电池 18650 2600mAh",
+      "category": "电源",
+      "total": 8,
+      "unit": "个",
+      "desc": "标准18650圆柱形锂离子可充电电池(外径18mm/高度65mm)，额定电压3.7V，满电4.2V。标称容量2600mAh(9.62Wh)，支持1C持续放电(2.6A)。内置BMS保护板，具有过充/过放/过流/短路保护功能。建议使用专用充电器(如TP4056)充电。"
+    },
+    {
+      "id": "ov7670-021",
+      "name": "摄像头 OV7670",
+      "category": "传感器",
+      "total": 3,
+      "unit": "个",
+      "desc": "OV7670 VGA摄像头传感器，最大分辨率640×480(30fps)，支持RawRGB/RGB/YUV/YCrCb/Bayer等多种输出格式。SCCB(I2C变体)接口配置寄存器，需外部晶振提供24MHz时钟。I/O电压1.7~3V，推荐配合FIFO(AL422B)模块使用。适合简易摄像头、颜色识别传感器或AI视觉入门学习。"
+    }
+  ],
+  "borrows": [
+    {
+      "id": "borrow-001",
+      "itemId": "esp32-board-001",
+      "borrower": "张明",
+      "qty": 2,
+      "dateBorrow": "2026-06-23T08:00:00.000Z",
+      "dateReturn": null,
+      "note": "智能小车项目",
+      "returned": false
+    },
+    {
+      "id": "borrow-002",
+      "itemId": "esp32-cam-002",
+      "borrower": "李华",
+      "qty": 1,
+      "dateBorrow": "2026-06-21T09:30:00.000Z",
+      "dateReturn": "2026-06-24T10:00:00.000Z",
+      "note": "",
+      "returned": true
+    },
+    {
+      "id": "borrow-003",
+      "itemId": "vl53l0x-013",
+      "borrower": "王强",
+      "qty": 1,
+      "dateBorrow": "2026-06-19T14:00:00.000Z",
+      "dateReturn": null,
+      "note": "巡线小车避障",
+      "returned": false
+    },
+    {
+      "id": "borrow-004",
+      "itemId": "brushless-2204-019",
+      "borrower": "赵雪",
+      "qty": 2,
+      "dateBorrow": "2026-06-25T11:00:00.000Z",
+      "dateReturn": null,
+      "note": "无人机调试",
+      "returned": false
+    },
+    {
+      "id": "borrow-005",
+      "itemId": "sg90-005",
+      "borrower": "陈明",
+      "qty": 3,
+      "dateBorrow": "2026-06-20T08:30:00.000Z",
+      "dateReturn": "2026-06-22T16:00:00.000Z",
+      "note": "机械臂制作",
+      "returned": true
+    },
+    {
+      "id": "borrow-006",
+      "itemId": "arduino-uno-011",
+      "borrower": "刘芳",
+      "qty": 1,
+      "dateBorrow": "2026-06-24T10:00:00.000Z",
+      "dateReturn": null,
+      "note": "智能家居项目",
+      "returned": false
+    },
+    {
+      "id": "mqv0yerw28x6",
+      "itemId": "vl53l0x-013",
+      "borrower": "蔡泽妍",
+      "qty": 1,
+      "dateBorrow": "2026-06-26T14:26:47.756Z",
+      "dateReturn": null,
+      "note": "比赛",
+      "returned": false
+    }
+  ]
+}
