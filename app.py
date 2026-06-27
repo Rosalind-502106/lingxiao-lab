@@ -15,7 +15,6 @@ from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS
 
 # Windows console encoding fix
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -34,7 +33,14 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 
 app = Flask(__name__, static_folder='.', static_url_path='')
-CORS(app)  # 允许所有来源的跨域请求
+
+# 手动 CORS 支持（无需安装 flask-cors）
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = '*'
+    return response
 
 # 管理员密码（可从环境变量读取，更安全）
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'lingxiao2025')
@@ -347,7 +353,7 @@ def export_data():
 # ---------------------------------------------------------------------------
 @app.route('/')
 def serve_index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.static_folder, 'lingxiao-lab-manager.html')
 
 
 @app.route('/<path:path>')
