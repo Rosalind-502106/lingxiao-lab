@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>凌逍科学社团 · 资产库 v3.0</title>
+<style>
+/* ============================
+   重置 & 变量
+   ============================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#4f46e5;--primary-light:#e0e7ff;--primary-dark:#3730a3;--primary-glow:rgba(79,70,229,.15);
+  --danger:#ef4444;--success:#10b981;--warning:#f59e0b;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-300:#cbd5e1;--gray-400:#94a3b8;
+  --gray-500:#64748b;--gray-700:#334155;--gray-800:#1e293b;--gray-900:#0f172a;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --radius:14px;--radius-sm:10px;--radius-xs:8px;
+  --shadow:0 1px 4px rgba(0,0,0,.04);--shadow-lg:0 8px 30px rgba(0,0,0,.12);
+  --header-h:56px;--nav-h:54px;--safe-bottom:env(safe-area-inset-bottom,0px)
+}
+html{font-size:16px;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--gray-50);padding:0 0 var(--nav-h);min-height:100vh;color:var(--gray-900);overflow-x:hidden}
+
+/* ============================
+   动态背景
+   ============================ */
+.bg-deco{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-deco .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.12}
+.bg-deco .orb:nth-child(1){width:400px;height:400px;background:#6366f1;top:-10%;left:-10%;animation:orbFloat 15s ease-in-out infinite}
+.bg-deco .orb:nth-child(2){width:300px;height:300px;background:#a855f7;bottom:-10%;right:-10%;animation:orbFloat 18s ease-in-out infinite reverse}
+.bg-deco .orb:nth-child(3){width:200px;height:200px;background:#f59e0b;top:40%;left:50%;animation:orbFloat 12s ease-in-out infinite}
+@keyframes orbFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,20px)}}
+
+/* ============================
+   通用
+   ============================ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:38px;padding:0 16px;border:none;border-radius:var(--radius-xs);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all .2s;white-space:nowrap;background:var(--gray-100);color:var(--gray-700);-webkit-user-select:none;user-select:none}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-warning{background:var(--warning);color:#fff}
+.btn-xs{height:28px;padding:0 10px;font-size:11px;border-radius:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* ============================
+   头部
+   ============================ */
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(226,232,240,.6);height:var(--header-h);display:flex;align-items:center;gap:8px;padding:0 16px;box-shadow:0 1px 8px rgba(0,0,0,.03)}
+.header-icon{font-size:22px}
+.header h1{font-size:16px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-badge{font-size:10px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:3px 10px;border-radius:20px;flex-shrink:0}
+.sync-status{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gray-400);flex-shrink:0}
+.sync-status .dot{width:6px;height:6px;border-radius:50%}
+.sync-status .dot.online{background:#22c55e}
+.sync-status .dot.offline{background:#ef4444}
+.sync-status .dot.syncing{background:#f59e0b;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.admin-btn{width:36px;height:36px;border:none;border-radius:10px;background:var(--gray-100);cursor:pointer;font-size:16px;transition:all .25s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.admin-btn:hover{background:var(--gray-200)}.admin-btn:active{transform:scale(.92)}
+.admin-btn.active{background:var(--primary-light);color:var(--primary);box-shadow:0 0 0 2px var(--primary-glow)}
+
+/* ============================
+   容器
+   ============================ */
+.container{padding:14px 14px 0;max-width:640px;margin:0 auto}
+
+/* ============================
+   统计条
+   ============================ */
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat-card{background:#fff;border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow);transition:transform .2s}
+.stat-card:active{transform:scale(.97)}
+.stat-card .num{font-size:24px;font-weight:800;color:var(--gray-900);font-variant-numeric:tabular-nums}
+.stat-card .num.updating{opacity:.5;transition:opacity .15s}
+.stat-card .label{font-size:11px;color:var(--gray-400);margin-top:2px}
+
+/* ============================
+   工具栏
+   ============================ */
+.toolbar{display:flex;gap:8px;margin-bottom:12px}
+.search-box{flex:1;height:40px;display:flex;align-items:center;gap:6px;background:#fff;border-radius:var(--radius-xs);padding:0 12px;box-shadow:var(--shadow);border:2px solid transparent;transition:border-color .25s,box-shadow .25s}
+.search-box:focus-within{border-color:var(--primary);box-shadow:var(--shadow),0 0 0 3px var(--primary-glow)}
+.search-box .icon{font-size:14px;opacity:.4;pointer-events:none;flex-shrink:0}
+.search-box input{border:none;outline:none;flex:1;font-size:14px;font-family:var(--font);background:transparent;min-width:0}
+.admin-info-bar{display:none;align-items:center;gap:8px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);border-radius:var(--radius-xs);padding:8px 14px;margin-bottom:12px;font-size:13px;color:var(--primary-dark);font-weight:500}
+.admin-show .admin-info-bar{display:flex}
+
+/* ============================
+   标签切换
+   ============================ */
+.section-tabs{display:flex;gap:4px;background:var(--gray-200);border-radius:var(--radius-sm);padding:4px;margin-bottom:14px}
+.section-tab{flex:1;height:40px;display:flex;align-items:center;justify-content:center;gap:5px;border:none;border-radius:var(--radius-xs);background:transparent;font-size:13px;font-weight:600;font-family:var(--font);color:var(--gray-500);cursor:pointer;transition:all .25s;-webkit-user-select:none;user-select:none}
+.section-tab.active{background:#fff;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.panel{display:none;will-change:transform,opacity}
+.panel.active{display:block;animation:panelFade .25s ease}
+@keyframes panelFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================
+   物资卡片
+   ============================ */
+.inv-list{display:flex;flex-direction:column;gap:10px}
+.inv-card{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:grid;grid-template-columns:46px 1fr auto;grid-template-rows:auto auto;gap:4px 14px;align-items:center;transition:box-shadow .25s;cursor:default}
+.inv-card:active{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.inv-card .icon-box{grid-row:1/3;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.icon-box.blue{background:linear-gradient(135deg,#dbeafe,#bfdbfe)}
+.icon-box.green{background:linear-gradient(135deg,#d1fae5,#a7f3d0)}
+.icon-box.amber{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.icon-box.red{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+.inv-card .name{font-size:15px;font-weight:700;color:var(--gray-900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-card .meta{font-size:12px;color:var(--gray-500);display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.inv-card .meta .dot{width:3px;height:3px;border-radius:50%;background:var(--gray-300);flex-shrink:0}
+.inv-card .qty-wrap{grid-row:1/3;text-align:right;display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0}
+.inv-card .qty-wrap .num{font-size:22px;font-weight:800;color:var(--gray-800);font-variant-numeric:tabular-nums;transition:color .3s,opacity .3s}
+.inv-card .qty-wrap .num.low{color:var(--danger)}
+.inv-card .qty-wrap .num.critical{color:var(--danger);animation:blinkLow 1s ease-in-out infinite}
+@keyframes blinkLow{0%,100%{opacity:1}50%{opacity:.5}}
+.inv-card .qty-wrap .sub{font-size:11px;color:var(--gray-400)}
+.inv-card .actions{grid-column:1/-1;display:none;gap:6px;justify-content:flex-end;margin-top:6px;padding-top:10px;border-top:1px solid var(--gray-100);flex-wrap:wrap}
+.admin-show .inv-card .actions{display:flex}
+
+/* ============================
+   借出卡片
+   ============================ */
+.borrow-list{display:flex;flex-direction:column;gap:10px}
+.borrow-card{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.borrow-card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.borrow-card .item-info{flex:1;min-width:0}
+.borrow-card .item-name{font-size:14px;font-weight:700;color:var(--gray-900);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.borrow-card .borrower{font-size:12px;color:var(--gray-500);margin-top:2px}
+.borrow-card .qty-badge{background:linear-gradient(135deg,var(--primary-light),#c7d2fe);color:var(--primary-dark);font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;flex-shrink:0}
+.borrow-card .dates{font-size:12px;color:var(--gray-400);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.borrow-card .status{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;flex-shrink:0}
+.status.ongoing{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#b45309}
+.status.returned{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#047857}
+.status.overdue{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#b91c1c}
+.borrow-card .actions{display:none;gap:6px;margin-top:4px;padding-top:10px;border-top:1px solid var(--gray-100);flex-wrap:wrap}
+.admin-show .borrow-card .actions{display:flex}
+
+/* ============================
+   空状态
+   ============================ */
+.empty-state{text-align:center;padding:50px 20px;color:var(--gray-400)}
+.empty-state .big-icon{font-size:56px;margin-bottom:14px;opacity:.4;display:block}
+
+/* ============================
+   模态框
+   ============================ */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex;animation:overlayFade .25s ease}
+@keyframes overlayFade{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;width:100%;max-width:480px;max-height:88vh;border-radius:24px 24px 0 0;padding:16px 20px calc(20px + var(--safe-bottom));overflow-y:auto;-webkit-overflow-scrolling:touch;animation:modalSlide .35s cubic-bezier(.32,.72,0,1)}
+@keyframes modalSlide{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:40px;height:5px;background:var(--gray-300);border-radius:5px;margin:0 auto 18px;flex-shrink:0}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--gray-900)}
+
+/* ============================
+   表单
+   ============================ */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;height:44px;padding:0 14px;border:2px solid var(--gray-200);border-radius:var(--radius-xs);font-size:14px;font-family:var(--font);outline:none;transition:border-color .2s,box-shadow .2s;background:#fff;-webkit-appearance:none;appearance:none}
+.form-group textarea{height:80px;padding:10px 14px;resize:vertical}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-glow)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-actions{display:flex;gap:8px;margin-top:22px}
+.form-actions .btn{flex:1}
+
+/* ============================
+   Toast
+   ============================ */
+.toast-container{position:fixed;top:calc(var(--header-h) + 8px);left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:calc(100% - 32px);max-width:400px}
+.toast{background:var(--gray-900);color:#fff;padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .35s ease,toastOut .35s ease 2.5s forwards;pointer-events:auto;display:flex;align-items:center;gap:8px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.toast.success{background:linear-gradient(135deg,#059669,#10b981)}
+.toast.error{background:linear-gradient(135deg,#dc2626,#ef4444)}
+.toast.info{background:linear-gradient(135deg,#4f46e5,#6366f1)}
+.toast.warning{background:linear-gradient(135deg,#d97706,#f59e0b)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-16px) scale(.95)}}
+
+/* ============================
+   底部导航
+   ============================ */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:150;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid rgba(226,232,240,.6);display:flex;padding:4px 0 calc(4px + var(--safe-bottom));box-shadow:0 -4px 20px rgba(0,0,0,.05)}
+.nav-item{flex:1;height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;font-size:10px;font-family:var(--font);color:var(--gray-400);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s;position:relative;-webkit-user-select:none;user-select:none}
+.nav-item .nav-icon{font-size:20px;line-height:1}
+.nav-item.active{color:var(--primary);font-weight:600}
+.nav-item.active::after{content:'';position:absolute;top:0;width:28px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--primary),#818cf8)}
+.admin-only{display:none!important}
+.admin-show .admin-only{display:flex!important}
+
+/* ============================
+   响应式
+   ============================ */
+@media(min-width:640px){.container{padding:18px 18px 0}.modal{border-radius:24px;margin-bottom:40px}.modal-overlay{align-items:center}}
+@media(max-width:380px){.header h1{font-size:15px}.stat-card .num{font-size:20px}}
+@media print{.bottom-nav,.header,.btn,.modal-overlay,.toast-container,.bg-deco{display:none!important}body{padding:0;background:#fff}.inv-card,.borrow-card{break-inside:avoid;border:1px solid #ddd}}
+
+/* ============================
+   操作日志面板
+   ============================ */
+.log-list{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.log-item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid var(--gray-100);font-size:12px}
+.log-item:last-child{border-bottom:none}
+.log-item .log-time{color:var(--gray-400);white-space:nowrap;font-size:11px;min-width:70px;font-variant-numeric:tabular-nums}
+.log-item .log-action{font-weight:600;color:var(--gray-700)}
+.log-item .log-detail{color:var(--gray-500);flex:1}
+.log-empty{text-align:center;padding:30px;color:var(--gray-400);font-size:13px}
+</style>
+</head>
+<body>
+
+<!-- ===== 背景装饰 ===== -->
+<div class="bg-deco" aria-hidden="true"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<!-- ===== 头部 ===== -->
+<header class="header">
+  <div class="header-icon" aria-hidden="true">🔬</div>
+  <h1>凌逍科学社团 · 物资管理</h1>
+  <div class="sync-status" id="syncStatus" title="同步状态">
+    <span class="dot offline" id="syncDot"></span>
+    <span id="syncLabel">离线</span>
+  </div>
+  <span class="header-badge" aria-label="版本 3.0">v3.0</span>
+  <button class="admin-btn" id="adminToggleBtn" onclick="toggleAdmin()" aria-label="管理员登录/退出" title="管理员">🔑</button>
+</header>
+
+<!-- ===== 主体 ===== -->
+<main class="container" id="app">
+  <!-- 统计 -->
+  <section class="stats-bar" aria-label="数据统计">
+    <div class="stat-card"><div class="num" id="statTotal" aria-live="polite">0</div><div class="label">物资种类</div></div>
+    <div class="stat-card"><div class="num" id="statBorrowing" aria-live="polite">0</div><div class="label">借出中</div></div>
+    <div class="stat-card"><div class="num" id="statAvailable" aria-live="polite">0</div><div class="label">可借用</div></div>
+  </section>
+
+  <!-- 工具栏 -->
+  <div class="toolbar" role="search">
+    <div class="search-box"><span class="icon" aria-hidden="true">🔍</span><input type="search" id="searchInput" placeholder="搜索物资名称..." oninput="onSearchInput()" aria-label="搜索物资"></div>
+    <button class="btn btn-primary admin-only" onclick="requireAdminThen('item')" aria-label="添加物资">＋ 添加</button>
+  </div>
+
+  <!-- 管理员信息 -->
+  <div class="admin-info-bar admin-only" id="adminInfoBar" role="status">
+    <span>👑 管理员模式 · 可编辑/添加/删除物资</span>
+    <button class="btn btn-xs" onclick="logoutAdmin()">退出</button>
+  </div>
+
+  <!-- 标签切换 -->
+  <div class="section-tabs" role="tablist">
+    <button class="section-tab active" data-tab="inventory" onclick="switchSection('inventory')" role="tab" aria-selected="true">📦 物资列表</button>
+    <button class="section-tab" data-tab="borrow" onclick="switchSection('borrow')" role="tab" aria-selected="false">📋 借出记录</button>
+    <button class="section-tab admin-only" data-tab="logs" onclick="switchSection('logs')" role="tab" aria-selected="false">📝 操作日志</button>
+  </div>
+
+  <!-- 物资面板 -->
+  <div class="panel active" id="panel-inventory" role="tabpanel">
+    <div class="inv-list" id="invList"></div>
+  </div>
+
+  <!-- 借出面板 -->
+  <div class="panel" id="panel-borrow" role="tabpanel">
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn btn-success" style="flex:1" onclick="openModal('borrow')" aria-label="借出物资">📤 借出物资</button>
+    </div>
+    <div class="borrow-list" id="borrowList"></div>
+  </div>
+
+  <!-- 日志面板 -->
+  <div class="panel" id="panel-logs" role="tabpanel">
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+      <span style="font-size:13px;font-weight:600;color:var(--gray-700)">最近操作记录</span>
+      <button class="btn btn-xs" onclick="refreshLogs()">🔄 刷新</button>
+    </div>
+    <div class="log-list" id="logList"><div class="log-empty">加载中...</div></div>
+  </div>
+</main>
+
+<!-- ===== 模态框 ===== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)" role="dialog" aria-modal="true">
+  <div class="modal" id="modalContent" onclick="event.stopPropagation()">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <h2 id="modalTitle">添加物资</h2>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast-container" id="toastContainer" aria-live="assertive" aria-relevant="additions"></div>
+
+<!-- ===== 底部导航 ===== -->
+<nav class="bottom-nav" aria-label="底部导航">
+  <button class="nav-item active" onclick="switchSection('inventory')" aria-label="物资列表"><span class="nav-icon" aria-hidden="true">📦</span>物资</button>
+  <button class="nav-item" onclick="switchSection('borrow')" aria-label="借出记录"><span class="nav-icon" aria-hidden="true">📋</span>借出</button>
+  <button class="nav-item admin-only" onclick="switchSection('logs')" aria-label="操作日志"><span class="nav-icon" aria-hidden="true">📝</span>日志</button>
+  <button class="nav-item" onclick="exportData()" aria-label="导出数据"><span class="nav-icon" aria-hidden="true">📤</span>导出</button>
+</nav>
+
+<script>
+// ============================
+// 配置
+// ============================
+const CONFIG = {
+  API_BASE: window.location.origin,
+  STORAGE_KEY: 'lingxiao_lab_v3',
+  ADMIN_PASSWORD: 'lingxiao2025',
+  SYNC_INTERVAL: 8000,    // 同步间隔 (ms)
+  SYNC_TIMEOUT: 5000      // 请求超时
+}
+
+// ============================
+// 工具函数
+// ============================
+const $ = id => document.getElementById(id)
+const escHtml = s => { if(!s) return ''; return String(s).replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>','"':'"'})[c]) }
+const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6)
+const nowStr = () => new Date().toISOString()
+const formatDate = d => { if(!d) return '—'; const dt = new Date(d); return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0') }
+const formatTime = d => { if(!d) return ''; const dt = new Date(d); return String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0') }
+const formatDateTime = d => { if(!d) return ''; return formatDate(d) + ' ' + formatTime(d) }
+const sleep = ms => new Promise(r => setTimeout(r, ms))
+
+// ============================
+// 状态
+// ============================
+let data = { items: [], borrows: [] }
+let isAdmin = false
+let searchTimer = null
+let syncTimer = null
+let syncRunning = false
+let dataHash = ''
+let isOnline = false
+
+// 分类图标映射
+const CAT_ICONS = {
+  '主板':'🖥️','传感器':'📡','模块':'🧩','显示器':'🖥️','线材':'🔌',
+  '工具':'🔧','电源':'🔋','电机':'⚙️','结构件':'🏗️','耗材':'📎'
+}
+const getCatIcon = c => CAT_ICONS[c] || '📦'
+
+// ============================
+// API 调用
+// ============================
+async function api(method, path, body) {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), CONFIG.SYNC_TIMEOUT)
+  try {
+    const opts = { method, signal: controller.signal }
+    if (body) {
+      opts.headers = { 'Content-Type': 'application/json' }
+      opts.body = JSON.stringify(body)
+    }
+    const r = await fetch(CONFIG.API_BASE + path, opts)
+    clearTimeout(timeout)
+    if (!r.ok) throw new Error(`HTTP ${r.status}`)
+    return await r.json()
+  } catch(e) {
+    clearTimeout(timeout)
+    throw e
+  }
+}
+
+// ============================
+// 同步状态
+// ============================
+function updateSyncStatus(online) {
+  isOnline = online
+  const dot = $('syncDot')
+  const label = $('syncLabel')
+  if (online) {
+    dot.className = 'dot online'
+    label.textContent = '在线'
+  } else {
+    dot.className = 'dot offline'
+    label.textContent = '离线'
+  }
+}
+
+function setSyncSyncing() {
+  $('syncDot').className = 'dot syncing'
+  $('syncLabel').textContent = '同步中'
+}
+
+// ============================
+// 智能同步
+// ============================
+async function doSync() {
+  if (syncRunning) return
+  syncRunning = true
+  setSyncSyncing()
+
+  try {
+    // 1. 获取服务端哈希
+    const hashRes = await api('GET', '/api/data/hash')
+    const serverHash = hashRes.hash
+
+    // 2. 如果哈希不同，拉取完整数据
+    if (serverHash !== dataHash) {
+      const serverData = await api('GET', '/api/data')
+      const newItems = serverData.items || []
+      const newBorrows = serverData.borrows || []
+
+      // 比较本地和服务器数据
+      const localStr = JSON.stringify({ items: data.items, borrows: data.borrows })
+      const serverStr = JSON.stringify({ items: newItems, borrows: newBorrows })
+
+      if (localStr !== serverStr) {
+        data.items = newItems
+        data.borrows = newBorrows
+        dataHash = serverHash
+        try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data)) } catch(e) {}
+        renderAll()
+        updateStats()
+      } else {
+        dataHash = serverHash
+      }
+    }
+
+    // 3. 推送本地数据到服务器
+    await pushToServer()
+    updateSyncStatus(true)
+  } catch(e) {
+    updateSyncStatus(false)
+  } finally {
+    syncRunning = false
+  }
+}
+
+async function pushToServer() {
+  try {
+    const body = { items: data.items, borrows: data.borrows }
+    const res = await api('POST', '/api/data', body)
+    return res.status === 'ok'
+  } catch {
+    return false
+  }
+}
+
+function startSync() {
+  // 初始同步
+  doSync()
+  // 定时同步
+  syncTimer = setInterval(doSync, CONFIG.SYNC_INTERVAL)
+}
+
+function stopSync() {
+  if (syncTimer) {
+    clearInterval(syncTimer)
+    syncTimer = null
+  }
+}
+
+// ============================
+// 保存 & 渲染
+// ============================
+function saveAndRender() {
+  try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data)) } catch(e) {}
+  applyAdminClass()
+  renderAll()
+  updateStats()
+  // 异步推送
+  pushToServer().then(ok => updateSyncStatus(ok)).catch(() => updateSyncStatus(false))
+}
+
+function renderAll() {
+  renderInventory()
+  renderBorrows()
+  // 如果当前是日志面板，刷新日志
+  if ($('panel-logs').classList.contains('active')) {
+    refreshLogs()
+  }
+}
+
+function updateStats() {
+  const activeBorrows = data.borrows.filter(b => !b.returned)
+  let available = 0
+  data.items.forEach(i => {
+    const borrowed = activeBorrows.filter(b => b.itemId === i.id).reduce((s, b) => s + (Number(b.qty) || 0), 0)
+    available += Math.max(0, (Number(i.total) || 0) - borrowed)
+  })
+  $('statTotal').textContent = data.items.length
+  $('statBorrowing').textContent = activeBorrows.length
+  $('statAvailable').textContent = available
+}
+
+function applyAdminClass() {
+  document.body.classList.toggle('admin-show', isAdmin)
+}
+
+// ============================
+// 搜索防抖
+// ============================
+function onSearchInput() {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(renderInventory, 150)
+}
+
+// ============================
+// 管理员
+// ============================
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false
+    applyAdminClass()
+    $('adminToggleBtn').classList.remove('active')
+    toast('已退出管理员', 'info')
+    // 如果当前在日志面板，切换到借出
+    if ($('panel-logs').classList.contains('active')) {
+      switchSection('inventory')
+    }
+    return
+  }
+  const p = prompt('请输入管理员密码:')
+  if (p === CONFIG.ADMIN_PASSWORD) {
+    isAdmin = true
+    applyAdminClass()
+    $('adminToggleBtn').classList.add('active')
+    toast('👑 管理员模式已开启', 'success')
+  } else if (p !== null) {
+    toast('✗ 密码错误', 'error')
+  }
+}
+
+function logoutAdmin() {
+  isAdmin = false
+  applyAdminClass()
+  $('adminToggleBtn').classList.remove('active')
+  toast('已退出管理员', 'info')
+  if ($('panel-logs').classList.contains('active')) {
+    switchSection('inventory')
+  }
+}
+
+function requireAdminThen(action) {
+  if (!isAdmin) {
+    toast('请先点击 🔑 输入管理员密码', 'info')
+    return
+  }
+  if (action === 'item') openModal('item')
+}
+
+// ============================
+// 渲染物资列表
+// ============================
+function renderInventory() {
+  const q = ($('searchInput').value || '').trim().toLowerCase()
+  let items = data.items
+  if (q) items = items.filter(i => i.name.toLowerCase().includes(q))
+
+  const container = $('invList')
+  if (!items.length) {
+    container.innerHTML = '<div class="empty-state"><span class="big-icon">📦</span><p>' + (q ? '没有匹配的物资' : '还没有物资，点击 + 添加') + '</p></div>'
+    return
+  }
+
+  const activeBorrows = data.borrows.filter(b => !b.returned)
+  container.innerHTML = items.map(i => {
+    const borrowed = activeBorrows.filter(b => b.itemId === i.id).reduce((s, b) => s + (Number(b.qty) || 0), 0)
+    const current = Math.max(0, (Number(i.total) || 0) - borrowed)
+    const pct = current / (Number(i.total) || 1)
+    const cls = pct <= 0 ? 'critical' : pct <= 0.25 ? 'low' : ''
+
+    return '<div class="inv-card">' +
+      '<div class="icon-box blue">' + getCatIcon(i.category) + '</div>' +
+      '<div class="name">' + escHtml(i.name) + '</div>' +
+      '<div class="meta"><span>' + escHtml(i.category) + '</span>' +
+      (i.note ? '<span class="dot"></span><span>' + escHtml(i.note) + '</span>' : '') +
+      (i.unit ? '<span class="dot"></span><span>' + escHtml(i.unit) + '</span>' : '') +
+      '</div>' +
+      '<div class="qty-wrap"><div class="num ' + cls + '">' + current + '</div><div class="sub">/ ' + i.total + '</div></div>' +
+      (isAdmin ? '<div class="actions">' +
+        '<button class="btn btn-xs btn-primary" onclick="editItem(\'' + i.id + '\')">✏️ 编辑</button>' +
+        '<button class="btn btn-xs btn-danger" onclick="if(confirm(\'确定删除「' + escHtml(i.name) + '」吗？\'))deleteItem(\'' + i.id + '\')">🗑️ 删除</button>' +
+        '</div>' : '') +
+      '</div>'
+  }).join('')
+}
+
+// ============================
+// 渲染借出记录
+// ============================
+function renderBorrows() {
+  const container = $('borrowList')
+  if (!data.borrows.length) {
+    container.innerHTML = '<div class="empty-state"><span class="big-icon">📋</span><p>还没有借出记录</p></div>'
+    return
+  }
+
+  const itemMap = {}
+  data.items.forEach(i => itemMap[i.id] = i)
+
+  // 按借出日期倒序
+  const sorted = [...data.borrows].sort((a, b) => new Date(b.dateBorrow) - new Date(a.dateBorrow))
+
+  container.innerHTML = sorted.map(b => {
+    const item = itemMap[b.itemId]
+    const returned = b.returned
+    const statusClass = returned ? 'returned' : 'ongoing'
+    const statusText = returned ? '✅ 已归还' : '⏳ 借出中'
+
+    return '<div class="borrow-card">' +
+      '<div class="top">' +
+      '<div class="item-info">' +
+      '<div class="item-name">' + (item ? escHtml(item.name) : '（已删除）') + ' <span class="status ' + statusClass + '">' + statusText + '</span></div>' +
+      '<div class="borrower">👤 ' + escHtml(b.borrower) + (b.note ? ' · ' + escHtml(b.note) : '') + '</div>' +
+      '</div>' +
+      '<span class="qty-badge">×' + b.qty + '</span>' +
+      '</div>' +
+      '<div class="dates"><span>📅 ' + formatDate(b.dateBorrow) + '</span>' +
+      (returned ? '<span>↩️ ' + formatDate(b.dateReturn) + '</span>' : '') +
+      '</div>' +
+      (isAdmin ? '<div class="actions">' +
+        (!returned ? '<button class="btn btn-xs btn-success" onclick="markReturned(\'' + b.id + '\')">✅ 归还</button>' : '') +
+        '<button class="btn btn-xs btn-danger" onclick="if(confirm(\'确定删除此记录？\'))deleteBorrow(\'' + b.id + '\')">🗑️ 删除</button>' +
+        '</div>' : '') +
+      '</div>'
+  }).join('')
+}
+
+// ============================
+// 渲染操作日志
+// ============================
+async function refreshLogs() {
+  const container = $('logList')
+  try {
+    const res = await api('GET', '/api/operations')
+    const ops = res.operations || []
+    if (!ops.length) {
+      container.innerHTML = '<div class="log-empty">暂无操作记录</div>'
+      return
+    }
+    container.innerHTML = ops.reverse().map(op => {
+      let actionLabel = op.action || op.detail || '操作'
+      const detail = op.detail || ''
+      return '<div class="log-item">' +
+        '<span class="log-time">' + formatDateTime(op.time) + '</span>' +
+        '<span class="log-action">' + escHtml(actionLabel) + '</span>' +
+        (detail ? '<span class="log-detail">' + escHtml(detail) + '</span>' : '') +
+        '</div>'
+    }).join('')
+  } catch(e) {
+    container.innerHTML = '<div class="log-empty">加载失败，请刷新重试</div>'
+  }
+}
+
+// ============================
+// CRUD
+// ============================
+function deleteItem(id) {
+  if (!isAdmin) return
+  const item = data.items.find(i => i.id === id)
+  data.items = data.items.filter(i => i.id !== id)
+  data.borrows = data.borrows.filter(b => b.itemId !== id)
+  saveAndRender()
+  toast('✓ 已删除「' + (item ? item.name : '') + '」', 'success')
+}
+
+function deleteBorrow(id) {
+  if (!isAdmin) return
+  data.borrows = data.borrows.filter(b => b.id !== id)
+  saveAndRender()
+  toast('✓ 已删除借出记录', 'success')
+}
+
+function markReturned(id) {
+  const b = data.borrows.find(x => x.id === id)
+  if (b) {
+    b.returned = true
+    b.dateReturn = nowStr()
+    saveAndRender()
+    toast('✅ 已标记归还', 'success')
+  }
+}
+
+// ============================
+// 切换标签
+// ============================
+function switchSection(name) {
+  document.querySelectorAll('.section-tab').forEach(t => {
+    const active = t.dataset.tab === name
+    t.classList.toggle('active', active)
+    t.setAttribute('aria-selected', active)
+  })
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name))
+
+  // 更新底部导航
+  const navMap = { 'inventory': 0, 'borrow': 1, 'logs': 2 }
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    item.classList.toggle('active', i === (navMap[name] || 0))
+  })
+
+  // 如果切换到日志面板，刷新
+  if (name === 'logs') {
+    refreshLogs()
+  }
+}
+window.switchSection = switchSection
+
+// ============================
+// 模态框
+// ============================
+function openModal(type, editData) {
+  const overlay = $('modalOverlay')
+  const title = $('modalTitle')
+  const body = $('modalBody')
+
+  if (type === 'item') {
+    const editing = !!editData
+    title.textContent = editing ? '✏️ 编辑物资' : '➕ 添加物资'
+    const cats = ['主板','传感器','模块','显示器','线材','工具','电源','电机','结构件','耗材','其他']
+
+    body.innerHTML =
+      '<div class="form-group"><label for="fName">物资名称</label><input id="fName" value="' + escHtml(editData?.name || '') + '" placeholder="请输入物资名称" autofocus></div>' +
+      '<div class="form-row">' +
+      '<div class="form-group"><label for="fCat">分类</label><select id="fCat">' +
+      cats.map(c => '<option' + (editData?.category === c ? ' selected' : '') + '>' + c + '</option>').join('') +
+      '</select></div>' +
+      '<div class="form-group"><label for="fTotal">数量</label><input id="fTotal" type="number" value="' + (editData?.total || '') + '" placeholder="总数" min="0"></div>' +
+      '</div>' +
+      '<div class="form-row">' +
+      '<div class="form-group"><label for="fUnit">单位</label><input id="fUnit" value="' + escHtml(editData?.unit || '') + '" placeholder="个/块/套…"></div>' +
+      '<div class="form-group"><label for="fNote">备注</label><input id="fNote" value="' + escHtml(editData?.note || '') + '" placeholder="可选"></div>' +
+      '</div>' +
+      '<div class="form-actions">' +
+      '<button class="btn" onclick="closeModal()">取消</button>' +
+      '<button class="btn btn-primary" onclick="saveItem(\'' + (editData?.id || '') + '\')">' + (editing ? '保存更改' : '添加') + '</button>' +
+      '</div>'
+  } else if (type === 'borrow') {
+    title.textContent = '📤 借出物资'
+
+    if (!data.items.length) {
+      toast('还没有物资，请先添加物资', 'error')
+      return
+    }
+
+    const opts = data.items.map(i => {
+      const borrowed = data.borrows.filter(b => b.itemId === i.id && !b.returned).reduce((s, b) => s + (Number(b.qty) || 0), 0)
+      const avail = Math.max(0, (Number(i.total) || 0) - borrowed)
+      return '<option value="' + i.id + '">' + escHtml(i.name) + '（余 ' + avail + ' ' + (escHtml(i.unit) || '') + '）</option>'
+    }).join('')
+
+    body.innerHTML =
+      '<div class="form-group"><label for="fBorrowItem">物资</label><select id="fBorrowItem">' + opts + '</select></div>' +
+      '<div class="form-row">' +
+      '<div class="form-group"><label for="fBorrower">借用人</label><input id="fBorrower" placeholder="请输入姓名"></div>' +
+      '<div class="form-group"><label for="fBorrowQty">数量</label><input id="fBorrowQty" type="number" value="1" min="1"></div>' +
+      '</div>' +
+      '<div class="form-group"><label for="fBorrowNote">备注（可选）</label><input id="fBorrowNote" placeholder="用途说明…"></div>' +
+      '<div class="form-actions">' +
+      '<button class="btn" onclick="closeModal()">取消</button>' +
+      '<button class="btn btn-success" onclick="saveBorrow()">确认借出</button>' +
+      '</div>'
+  }
+
+  overlay.classList.add('show')
+  document.body.style.overflow = 'hidden'
+  setTimeout(() => { const f = body.querySelector('[autofocus]'); if (f) f.focus() }, 300)
+}
+
+function saveItem(id) {
+  const name = $('fName').value.trim()
+  if (!name) {
+    toast('请输入物资名称', 'error')
+    $('fName').focus()
+    return
+  }
+
+  const itemData = {
+    name: name,
+    category: $('fCat').value,
+    total: Number($('fTotal').value) || 0,
+    unit: $('fUnit').value.trim(),
+    note: $('fNote').value.trim()
+  }
+
+  if (id) {
+    const idx = data.items.findIndex(i => i.id === id)
+    if (idx >= 0) {
+      data.items[idx] = { ...data.items[idx], ...itemData }
+      toast('✓ 已更新「' + name + '」', 'success')
+    }
+  } else {
+    itemData.id = genId()
+    itemData.createdAt = nowStr()
+    data.items.push(itemData)
+    toast('✓ 已添加「' + name + '」', 'success')
+  }
+
+  saveAndRender()
+  closeModal()
+}
+
+function saveBorrow() {
+  const itemId = $('fBorrowItem').value
+  const borrower = $('fBorrower').value.trim()
+  const qty = Number($('fBorrowQty').value) || 1
+  const note = $('fBorrowNote').value.trim()
+
+  if (!borrower) {
+    toast('请输入借用人姓名', 'error')
+    $('fBorrower').focus()
+    return
+  }
+
+  data.borrows.push({
+    id: genId(),
+    itemId,
+    borrower,
+    qty,
+    dateBorrow: nowStr(),
+    dateReturn: null,
+    note,
+    returned: false
+  })
+
+  saveAndRender()
+  toast('✓ 已记录借出', 'success')
+  closeModal()
+}
+
+function editItem(id) {
+  const item = data.items.find(i => i.id === id)
+  if (item) openModal('item', item)
+}
+
+function closeModal(e) {
+  if (e && e.target && !e.target.classList.contains('modal-overlay') && e.target.id !== 'modalOverlay') return
+  $('modalOverlay').classList.remove('show')
+  document.body.style.overflow = ''
+}
+window.closeModal = closeModal
+
+// ============================
+// Toast
+// ============================
+function toast(msg, type) {
+  const container = $('toastContainer')
+  const t = document.createElement('div')
+  t.className = 'toast' + (type ? ' ' + type : '')
+  t.textContent = msg
+  container.appendChild(t)
+  setTimeout(() => t.remove(), 3000)
+}
+
+// ============================
+// 导出
+// ============================
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = '凌逍物资_' + formatDate(nowStr()) + '.json'
+  a.click()
+  URL.revokeObjectURL(url)
+  toast('✓ 数据已导出', 'success')
+}
+
+// ============================
+// 键盘事件
+// ============================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal()
+})
+
+// ============================
+// 初始化
+// ============================
+;(async function init() {
+  // 1) 加载本地缓存
+  try {
+    const cached = localStorage.getItem(CONFIG.STORAGE_KEY)
+    if (cached) {
+      const parsed = JSON.parse(cached)
+      data.items = Array.isArray(parsed.items) ? parsed.items : []
+      data.borrows = Array.isArray(parsed.borrows) ? parsed.borrows : []
+    }
+  } catch(e) {}
+
+  // 2) 初始渲染
+  applyAdminClass()
+  renderAll()
+  updateStats()
+
+  // 3) 尝试从服务器获取数据
+  try {
+    const serverData = await api('GET', '/api/data')
+    const serverItems = serverData.items || []
+    const serverBorrows = serverData.borrows || []
+
+    if (serverItems.length > 0) {
+      data.items = serverItems
+      data.borrows = serverBorrows
+      try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data)) } catch(e) {}
+      dataHash = serverData.headers?.['X-Data-Hash'] || ''
+      updateSyncStatus(true)
+    } else if (data.items.length === 0) {
+      // 首次使用，初始化示例数据
+      data.items = [
+        { id: genId(), name: 'ESP32 开发板', category: '主板', total: 10, unit: '块', note: '标准版', createdAt: nowStr() },
+        { id: genId(), name: 'ESP32-CAM', category: '主板', total: 5, unit: '块', note: '带摄像头', createdAt: nowStr() },
+        { id: genId(), name: '超声波传感器 HC-SR04', category: '传感器', total: 8, unit: '个', createdAt: nowStr() },
+        { id: genId(), name: '温湿度传感器 DHT11', category: '传感器', total: 6, unit: '个', createdAt: nowStr() },
+        { id: genId(), name: '舵机 SG90', category: '模块', total: 12, unit: '个', createdAt: nowStr() },
+        { id: genId(), name: 'OLED 显示屏 0.96寸', category: '显示器', total: 4, unit: '块', note: 'I2C接口', createdAt: nowStr() },
+        { id: genId(), name: '杜邦线 公对母 40根装', category: '线材', total: 3, unit: '套', createdAt: nowStr() },
+        { id: genId(), name: '面包板 830孔', category: '工具', total: 5, unit: '块', createdAt: nowStr() },
+        { id: genId(), name: 'LED 5mm 彩色套装', category: '模块', total: 20, unit: '颗', note: '红黄蓝绿白各4颗', createdAt: nowStr() },
+        { id: genId(), name: '电池盒 4节AA', category: '电源', total: 6, unit: '个', note: '带开关', createdAt: nowStr() }
+      ]
+      data.borrows = [
+        { id: genId(), itemId: data.items[0].id, borrower: '张明', qty: 2, dateBorrow: new Date(Date.now()-86400000*3).toISOString(), dateReturn: null, note: '智能小车项目', returned: false },
+        { id: genId(), itemId: data.items[1].id, borrower: '李华', qty: 1, dateBorrow: new Date(Date.now()-86400000*5).toISOString(), dateReturn: new Date(Date.now()-86400000*2).toISOString(), note: '', returned: true }
+      ]
+      try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data)) } catch(e) {}
+      // 推送到服务器
+      await pushToServer()
+    } else {
+      // 本地有数据，但服务器为空，推送到服务器
+      await pushToServer()
+      updateSyncStatus(true)
+    }
+  } catch(e) {
+    updateSyncStatus(false)
+    // 如果本地也没有数据，初始化示例
+    if (data.items.length === 0) {
+      data.items = [
+        { id: genId(), name: 'ESP32 开发板', category: '主板', total: 10, unit: '块', note: '标准版', createdAt: nowStr() },
+        { id: genId(), name: '超声波传感器 HC-SR04', category: '传感器', total: 8, unit: '个', createdAt: nowStr() },
+        { id: genId(), name: 'LED 5mm 彩色套装', category: '模块', total: 20, unit: '颗', createdAt: nowStr() }
+      ]
+      try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(data)) } catch(e) {}
+    }
+  }
+
+  // 4) 最终渲染
+  applyAdminClass()
+  renderAll()
+  updateStats()
+
+  // 5) 启动定时同步
+  startSync()
+})()
+</script>
+</body>
+</html>
